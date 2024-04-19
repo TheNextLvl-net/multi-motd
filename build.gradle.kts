@@ -8,6 +8,7 @@ version = "1.0.0"
 
 repositories {
     mavenCentral()
+    maven("https://repo.thenextlvl.net/releases")
     maven("https://repo.papermc.io/repository/maven-public/")
 }
 
@@ -17,6 +18,8 @@ dependencies {
 
     compileOnly("com.velocitypowered:velocity-api:3.3.0-SNAPSHOT")
     annotationProcessor("com.velocitypowered:velocity-api:3.3.0-SNAPSHOT")
+
+    implementation("net.thenextlvl.core:files:1.0.4")
 }
 
 tasks.shadowJar {

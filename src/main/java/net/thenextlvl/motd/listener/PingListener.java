@@ -6,8 +6,7 @@ import com.velocitypowered.api.network.ProtocolState;
 import com.velocitypowered.api.proxy.server.PingOptions;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import lombok.RequiredArgsConstructor;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.thenextlvl.motd.MultiMOTDPlugin;
 
 @RequiredArgsConstructor
@@ -22,21 +21,25 @@ public class PingListener {
             var servers = hosts.get(address.getHostString());
             if (servers != null && !servers.isEmpty()) for (var server : servers) {
                 try {
+                    var config = plugin.getConfig().unknownServer();
                     event.setPing(plugin.getServer().getServer(server).map(info -> {
                         var options = PingOptions.builder()
                                 .version(event.getConnection().getProtocolVersion())
                                 .build();
                         return info.ping(options).join();
-                    }).orElse(ServerPing.builder()
-                            .description(Component.text("unknown")
-                                    .color(NamedTextColor.DARK_RED))
-                            .build()));
+                    }).orElse(ServerPing.builder().version(config.version())
+                            .modType(config.modType()).maximumPlayers(config.maxPlayers())
+                            .description(MiniMessage.miniMessage().deserialize(
+                                    config.description())
+                            ).build()));
                     return;
                 } catch (Exception e) {
-                    event.setPing(ServerPing.builder()
-                            .description(Component.text("unreachable")
-                                    .color(NamedTextColor.DARK_RED))
-                            .build());
+                    var config = plugin.getConfig().unreachableServer();
+                    event.setPing(ServerPing.builder().version(config.version())
+                            .modType(config.modType()).maximumPlayers(config.maxPlayers())
+                            .description(MiniMessage.miniMessage().deserialize(
+                                    config.description())
+                            ).build());
                 }
             }
         });
