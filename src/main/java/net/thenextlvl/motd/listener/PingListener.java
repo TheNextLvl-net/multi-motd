@@ -27,19 +27,27 @@ public class PingListener {
                                 .version(event.getConnection().getProtocolVersion())
                                 .build();
                         return info.ping(options).join();
-                    }).orElse(ServerPing.builder().version(config.version())
-                            .modType(config.modType()).maximumPlayers(config.maxPlayers())
-                            .description(MiniMessage.miniMessage().deserialize(
-                                    config.description())
-                            ).build()));
+                    }).orElseGet(() -> {
+                        var builder = ServerPing.builder().version(config.version())
+                                .maximumPlayers(config.maxPlayers())
+                                .description(MiniMessage.miniMessage().deserialize(
+                                        config.description())
+                                );
+                        if (config.modType() != null) builder.modType(config.modType());
+                        else builder.notModCompatible();
+                        return builder.build();
+                    }));
                     return;
                 } catch (Exception e) {
                     var config = plugin.getConfig().unreachableServer();
-                    event.setPing(ServerPing.builder().version(config.version())
-                            .modType(config.modType()).maximumPlayers(config.maxPlayers())
+                    var builder = ServerPing.builder().version(config.version())
+                            .maximumPlayers(config.maxPlayers())
                             .description(MiniMessage.miniMessage().deserialize(
                                     config.description())
-                            ).build());
+                            );
+                    if (config.modType() != null) builder.modType(config.modType());
+                    else builder.notModCompatible();
+                    event.setPing(builder.build());
                 }
             }
         });

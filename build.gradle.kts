@@ -1,10 +1,10 @@
 plugins {
     id("java")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.github.goooler.shadow") version "8.1.7"
 }
 
 group = "net.thenextlvl.motd"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
