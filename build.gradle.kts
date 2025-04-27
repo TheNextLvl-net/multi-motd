@@ -24,7 +24,7 @@ dependencies {
     compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
     annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 
-    implementation("net.thenextlvl.core:files:2.0.2")
+    implementation("net.thenextlvl.core:files:2.0.3")
 }
 
 tasks.shadowJar {
