@@ -7,8 +7,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.ServerPing;
-import core.file.format.GsonFile;
-import core.io.IO;
+import core.file.formats.GsonFile;
 import net.thenextlvl.motd.config.PingConfig;
 import net.thenextlvl.motd.config.PluginConfig;
 import net.thenextlvl.motd.listener.PingListener;
@@ -32,7 +31,7 @@ public class MultiMOTDPlugin {
     @Inject
     public MultiMOTDPlugin(ProxyServer server, @DataDirectory Path dataDirectory) {
         this.server = server;
-        this.config = new GsonFile<>(IO.of(dataDirectory.toFile(), "config.json"), new PluginConfig(
+        this.config = new GsonFile<>(dataDirectory.resolve("config.json"), new PluginConfig(
                 new PingConfig(0, "FML", new ServerPing.Version(-1, ""),
                         "<#FF0000>Can't connect to backend server"),
                 new PingConfig(0, "FML", new ServerPing.Version(-1, ""),

@@ -16,15 +16,16 @@ tasks.compileJava {
 
 repositories {
     mavenCentral()
-    maven("https://repo.thenextlvl.net/releases")
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.thenextlvl.net/releases")
+    maven("https://repo.thenextlvl.net/snapshots")
 }
 
 dependencies {
     compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
     annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 
-    implementation("net.thenextlvl.core:files:3.0.1")
+    implementation("net.thenextlvl.core:files:4.0.0-pre1")
 }
 
 tasks.shadowJar {
